@@ -10,9 +10,8 @@ public class DbCompanyDao implements Company.CompanyDao {
             "ID INT PRIMARY KEY AUTO_INCREMENT," +
             "NAME VARCHAR(50) UNIQUE NOT NULL );";
     private static final String SELECT_ALL = "SELECT * FROM COMPANY";
+    private static final String SELECT_COMPANY = "SELECT ID FROM COMPANY WHERE NAME = ?";
     private static final String INSERT_DATA = "INSERT INTO COMPANY (NAME) VALUES ('%s')";
-
-
     static final String JDBC_DRIVER = "org.h2.Driver";
     static final String DB_URL = "jdbc:h2:./src/carsharing/db/carsharing";
     private Connection connection;
@@ -53,5 +52,19 @@ public class DbCompanyDao implements Company.CompanyDao {
             e.printStackTrace();
         }
         return companies;
+    }
+
+    @Override
+    public int findCompanyId(String companyName) {
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_COMPANY)) {
+            statement.setString(1, companyName);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("ID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // company not found
     }
 }
