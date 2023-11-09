@@ -28,9 +28,9 @@ public class DbCarDao implements Car.CarDao {
     }
 
     @Override
-    public void add(Car car, int companyId) {
+    public void add(String car, int companyId) {
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO CAR (NAME, COMPANY_ID) VALUES (?, ?)")) {
-            preparedStatement.setString(1, car.getName());
+            preparedStatement.setString(1, car);
             preparedStatement.setInt(2, companyId);
             preparedStatement.executeUpdate();
             System.out.println("The car was added!");
@@ -48,14 +48,14 @@ public class DbCarDao implements Car.CarDao {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
+                int id = resultSet.getInt("ID");
                 String name = resultSet.getString("NAME");
                 int companyId = resultSet.getInt("COMPANY_ID");
-                cars.add(new Car(name, companyId));
+                cars.add(new Car(name, companyId, id));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return cars;
     }
 }

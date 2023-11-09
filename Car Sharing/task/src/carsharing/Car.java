@@ -5,10 +5,16 @@ import java.util.List;
 public class Car {
     String name;
     int companyId;
+    int id;
 
-    public Car(String name, int companyId) {
+    public Car(String name, int companyId, int id) {
         this.name = name;
         this.companyId = companyId;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getCompanyId() {
@@ -21,6 +27,6 @@ public class Car {
 
     public interface CarDao {
         List<Car> findAll(Company company);
-        void add(Car car, int companyId);
+        void add(String carName, int companyId);
     }
 }

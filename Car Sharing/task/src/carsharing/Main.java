@@ -6,7 +6,8 @@ public class Main {
 
         DbCompanyDao companyDao = new DbCompanyDao();
         DbCarDao carDao = new DbCarDao();
-        UserInterface userInterface = new UserInterface(companyDao, carDao);
+        DbCustomerDao customerDao = new DbCustomerDao();
+        UserInterface userInterface = new UserInterface(companyDao, carDao, customerDao);
         userInterface.menu();
 
     }
